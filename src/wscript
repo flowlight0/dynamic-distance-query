@@ -1,0 +1,29 @@
+# -*- python -*-
+
+srcdir= '.'
+blddir= '../bin'
+
+
+def build(bld):
+    bld.recurse('algorithm')
+    bld.recurse('test')
+    
+    bld.stlib(
+        source   = ['common.cpp', 'jlog.cpp'],
+        target   = 'my_common',
+        includes = '../lib/',
+    )
+
+    programs = [
+        'benchmark_various_search_strategy',
+        'benchmark_dynamic_update',
+    ]
+
+    for program in programs:
+        bld.program(
+            source  = 'cui/' + program + '_main.cpp',
+            target  = '../' + program,
+            defines = ['NDEBUG'],
+            use     = ['algorithm', 'my_common', 'gflags'],
+            includes = ['../lib/', '.']
+        )

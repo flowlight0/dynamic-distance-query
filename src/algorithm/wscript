@@ -1,0 +1,18 @@
+# -*- python -*-
+import os
+
+srcdir= '.'
+blddir= '../../bin'
+
+def build(bld):
+    algorithms = []
+    for (pathname, _, filenames) in os.walk('src/algorithm'):
+        for filename in filenames:
+            if filename.endswith('.cpp'):
+                algorithms.append(filename)
+    bld.stlib(
+        source = algorithms,
+        includes = ['../', '../../lib'],
+        target  = 'algorithm')
+    
+    

@@ -1,0 +1,23 @@
+#! /usr/bin/env python3
+import os
+
+srcdir= '.'
+blddir= '../../bin'
+
+def build(bld): 
+    test_names = [
+        'static_distance_test',
+        'dynamic_distance_test',
+        'two_layer_queue_test'
+    ]
+    test_files = ["{0}_main.cpp".format(test_name) for test_name in test_names]
+    
+    for target, source in zip(test_names, test_files):
+        bld.program(
+            features = 'cxxprogram test',
+            source   = source,
+            target   = target,
+            uselib   = 'pthread',
+            use      = ['algorithm', 'my_common', 'gtest', 'gflags'],
+            includes = ['../../lib', '../src', '../']
+        )

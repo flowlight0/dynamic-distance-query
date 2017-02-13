@@ -13,6 +13,7 @@ def configure(conf):
     conf.load('compiler_cxx')
     conf.check_tool('compiler_cxx')
     conf.env.append_value('CXXFLAGS', ['-Wall', '-Wextra', '-g', '-O3', '-std=c++11'])
+    conf.check_cxx(lib = ['pthread'], uselib_store = 'pthread')
     
 def build(bld):
     bld.recurse('lib')

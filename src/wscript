@@ -24,6 +24,6 @@ def build(bld):
             source  = 'cui/' + program + '_main.cpp',
             target  = '../' + program,
             defines = ['NDEBUG'],
-            use     = ['algorithm', 'my_common', 'gflags'],
+            use     = ['algorithm', 'my_common', 'gflags', 'pthread'],
             includes = ['../lib/', '.']
         )

@@ -19,6 +19,10 @@ DEFINE_int32(max_i, 5, "");
 int main(int argc, char *argv[]) {
   JLOG_INIT(&argc, argv);
   gflags::ParseCommandLineFlags(&argc, &argv, true);
+  if (!FLAGS_undirected) {
+    cerr << "The option --undirected must be specified to run this script." << endl;
+    return 1;
+  }
 
   vector<pair<int, int> > es;
   vector<int> sources, targets, answers;
@@ -45,13 +49,27 @@ int main(int argc, char *argv[]) {
       answers.push_back(bps.QueryDistance(sources[q], targets[q]));
     }
   }
-
-
+  
+  
   vector<int> dists(FLAGS_num_queries);
   vector<vector<pair<int, int > > > del_ess, ins_ess;
   for (int trial = 0; trial < FLAGS_num_trials; trial++) {
-    random_shuffle(es.begin(), es.end());
-    vector<pair<int, int> > upd_es(es.end() - FLAGS_num_updates, es.end());
+    vector<pair<int, int> > tmp_es = es;
+    for (auto &e: tmp_es) {
+      int source = min(e.fst, e.snd);
+      int target = max(e.fst, e.snd);
+      e = make_pair(source, target);
+    }
+    sort(tmp_es.begin(), tmp_es.end());
+    tmp_es.erase(unique(tmp_es.begin(), tmp_es.end()), tmp_es.end());
+    random_shuffle(tmp_es.begin(), tmp_es.end());
+
+    if (tmp_es.size() < size_t(FLAGS_num_updates)) {
+      cerr << "FLAGS_num_updates must be smaller than the number of unique undirected edges." << endl;
+      return 1;
+    }
+    
+    vector<pair<int, int> > upd_es(tmp_es.end() - FLAGS_num_updates, tmp_es.end());
     del_ess.push_back(upd_es);
     reverse(upd_es.begin(), upd_es.end());
     ins_ess.push_back(upd_es);

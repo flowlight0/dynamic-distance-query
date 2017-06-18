@@ -17,6 +17,7 @@ def build(bld):
     programs = [
         'benchmark_various_search_strategy',
         'benchmark_dynamic_update',
+        'dynamic_distance_query'
     ]
 
     for program in programs:

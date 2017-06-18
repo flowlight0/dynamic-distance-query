@@ -4,7 +4,19 @@ This is an implementation of a distance query algorithm on massive dynamic netwo
 
 ## Usage
 ### CUI
-I will write it soon. 
+We can use our CUI as the following: 
+
+    $ ./waf configure
+    $ ./waf
+    $ ./bin/dynamic_distance_query --graph_file sample/graph.txt --query_file sample/query.txt --undirected
+    5
+    2
+    7
+    1
+    2
+    6
+    Invalid op DUMMY, skipping it
+You can see the format of input graph file and query file from https://github.com/flowlight0/dynamic-distance-query/blob/master/sample/graph.txt and https://github.com/flowlight0/dynamic-distance-query/blob/master/sample/query.txt, respectively. 
 
 ### Benchmarker
 Theare are two benchmarkers for examining the performance of our algorithm. https://github.com/flowlight0/dynamic-distance-query/blob/master/src/cui/benchmark_various_search_strategy_main.cpp is a benchmarker for comparing the querying efficiency of several search strategies in static settings. https://github.com/flowlight0/dynamic-distance-query/blob/master/src/cui/benchmark_dynamic_update_main.cpp is a benchmarker for the performance of our method with various index size reduction parameter in dynamic settings. 
